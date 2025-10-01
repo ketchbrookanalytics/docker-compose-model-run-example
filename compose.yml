@@ -2,15 +2,18 @@
 services:
   app:
     build:
-      context: ..
-      dockerfile: .devcontainer/Dockerfile
+      context: .
+      dockerfile: Dockerfile
+    # container-name: docker-compose-model-run-example-app
     volumes:
       # Mount the root folder that contains .git
-      - ..:/workspaces/docker-compose-model-run-example:cached
+      - .:/app:cached
+    # Use sleep infinity for dev container, override with actual command when
+    # running standalone
     command: sleep infinity
 
     # Uncomment the next line to use a non-root user for all processes
-    user: vscode
+    # user: app
 
     # Use "forwardPorts" in **devcontainer.json** to forward an app port locally
     ports:

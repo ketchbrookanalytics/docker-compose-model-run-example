@@ -28,18 +28,16 @@ def chat_with_llm(message, history):
 
     Args:
         message: The user's message
-        history: The chat history in Gradio format [(user_msg, assistant_msg), ...]
+        history: The chat history in Gradio messages format [{'role': 'user'/'assistant', 'content': '...'}, ...]
 
     Returns:
         The updated chat history with the LLM's response
     """
-    # Convert Gradio history format to OpenAI messages format
+    # Build messages list with system prompt and history
     messages = [{"role": "system", "content": SYSTEM_PROMPT}]
 
-    for user_msg, assistant_msg in history:
-        messages.append({"role": "user", "content": user_msg})
-        if assistant_msg:
-            messages.append({"role": "assistant", "content": assistant_msg})
+    # Add history (already in OpenAI format)
+    messages.extend(history)
 
     # Add the current message
     messages.append({"role": "user", "content": message})
@@ -60,10 +58,16 @@ def chat_with_llm(message, history):
             if chunk.choices[0].delta.content:
                 full_response += chunk.choices[0].delta.content
                 # Yield the updated history with the current message and partial response
-                yield history + [(message, full_response)]
+                yield history + [
+                    {"role": "user", "content": message},
+                    {"role": "assistant", "content": full_response}
+                ]
 
     except Exception as e:
-        yield history + [(message, f"Error: {str(e)}\n\nPlease check your API configuration.")]
+        yield history + [
+            {"role": "user", "content": message},
+            {"role": "assistant", "content": f"Error: {str(e)}\n\nPlease check your API configuration."}
+        ]
 
 
 # Create Gradio interface
@@ -76,8 +80,8 @@ with gr.Blocks(title="LLM Chat") as demo:
 
     chatbot = gr.Chatbot(
         height=500,
-        bubble_full_width=False,
-        show_label=False
+        show_label=False,
+        type='messages'
     )
 
     with gr.Row():
