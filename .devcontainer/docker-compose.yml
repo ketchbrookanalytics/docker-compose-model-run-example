@@ -1,0 +1,50 @@
+
+services:
+  app:
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+    volumes:
+      # Mount the root folder that contains .git
+      - ..:/workspaces/docker-compose-model-run-example:cached
+    command: sleep infinity
+
+    # Uncomment the next line to use a non-root user for all processes
+    user: vscode
+
+    # Use "forwardPorts" in **devcontainer.json** to forward an app port locally
+    ports:
+      - "8000:8000"
+
+    # Use "models" to specify LLMs via Docker Model Runner
+    models:
+      llm:
+        endpoint_var: CHAT_MODEL_URL
+        model_var: CHAT_MODEL_NAME
+
+    # Environment variables
+    environment:
+      - PYTHONUNBUFFERED=1
+
+models:
+# Model Name
+  llm:
+    # Model Image
+    model: ai/smollm2
+
+    # Uncomment to override the default command
+    # command: /bin/sh -c "while sleep 1000; do :; done"
+
+  # Add additional services here if needed (database, redis, etc.)
+  # db:
+  #   image: postgres:15-alpine
+  #   restart: unless-stopped
+  #   volumes:
+  #     - postgres-data:/var/lib/postgresql/data
+  #   environment:
+  #     POSTGRES_USER: postgres
+  #     POSTGRES_PASSWORD: postgres
+  #     POSTGRES_DB: devdb
+
+# volumes:
+#   postgres-data:
