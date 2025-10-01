@@ -1,22 +1,32 @@
 {
   "name": "Python Dev Container",
-  "dockerComposeFile": "docker-compose.yml",
+  "dockerComposeFile": "../compose.yml",
   "service": "app",
-  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
-
-  // Use 'forwardPorts' to make a list of ports inside the container available locally
-  "forwardPorts": [8000],
-
+  "workspaceFolder": "/app",
+  "shutdownAction": "stopCompose",
+  // Make the PYTHONPATH the root of the repository
+  "remoteEnv": {
+    "PYTHONPATH": "${containerWorkspaceFolder}"
+  },
+  // Post-create command to ensure dependencies are synced
+  // NOTE: You'll want to comment this out when initializing the project w/ uv
+  "postCreateCommand": "uv sync",
+  // Commands to run when attaching to the container
+  "postAttachCommand": {
+    "server": "echo 'Dev container ready! Run: `uv run app.py` and go to localhost:8000 in your web browser'"
+  },
   // Configure tool-specific properties
   "customizations": {
     "vscode": {
       // Set *default* container specific settings.json values on container create
       "settings": {
-        "python.defaultInterpreterPath": "/usr/local/bin/python",
+        "python.defaultInterpreterPath": "/app/.venv/bin/python",
+        "remote.autoForwardPortsSource": "hybrid",
         "editor.formatOnSave": true,
-        "editor.rulers": [80]
+        "editor.rulers": [
+          80
+        ]
       },
-
       // Add the IDs of extensions you want installed when the container is created
       "extensions": [
         "ms-python.python",
@@ -24,8 +34,6 @@
       ]
     }
   }
-
   // Comment out to connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root
   // "remoteUser": "vscode"
-
 }
