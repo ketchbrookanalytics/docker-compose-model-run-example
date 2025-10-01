@@ -12,17 +12,16 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Configure OpenAI client
-# For local LLMs, set OPENAI_API_BASE to your local endpoint (e.g., http://localhost:8080/v1)
 client = OpenAI(
-    api_key = "not-needed-for-local-docker-model-runner",
-    base_url = os.getenv("CHAT_MODEL_URL")
+    api_key = "",   # Not needed for local LLM via Docker Model Runner w/ Docker Compose
+    base_url = os.getenv("CHAT_MODEL_URL")   # This was set in Docker Compose
 )
 
 # Model configuration
-MODEL_NAME = os.getenv("CHAT_MODEL_NAME")
-SYSTEM_PROMPT = os.getenv("SYSTEM_PROMPT", "You are a helpful AI assistant.")
+MODEL_NAME = os.getenv("CHAT_MODEL_NAME")   # This was set in Docker Compose
+SYSTEM_PROMPT = "You are a helpful AI assistant."
 
-
+# Create function to interact with LLM
 def chat_with_llm(message, history):
     """
     Send a message to the LLM and return the response.
@@ -67,44 +66,6 @@ def chat_with_llm(message, history):
         yield history + [(message, f"Error: {str(e)}\n\nPlease check your API configuration.")]
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # Create Gradio interface
 with gr.Blocks(title="LLM Chat") as demo:
     gr.Markdown("# 🤖 Chat with LLM")
@@ -131,17 +92,6 @@ with gr.Blocks(title="LLM Chat") as demo:
     with gr.Row():
         clear_btn = gr.Button("Clear Chat")
 
-    gr.Markdown(
-        """
-        ### Configuration
-        Set these environment variables in `.env` file:
-        - `OPENAI_API_KEY`: Your API key (use "not-needed-for-local" for local LLMs)
-        - `OPENAI_API_BASE`: API endpoint (e.g., http://localhost:8080/v1 for local)
-        - `MODEL_NAME`: Model to use (default: gpt-3.5-turbo)
-        - `SYSTEM_PROMPT`: System prompt for the assistant
-        """
-    )
-
     # Event handlers
     msg.submit(chat_with_llm, [msg, chatbot], [chatbot])
     msg.submit(lambda: "", None, [msg])
@@ -154,8 +104,8 @@ with gr.Blocks(title="LLM Chat") as demo:
 
 if __name__ == "__main__":
     # Get host and port from environment variables
-    host = os.getenv("GRADIO_HOST", "0.0.0.0")
-    port = int(os.getenv("GRADIO_PORT", "8000"))
+    host = "0.0.0.0"
+    port = 8000
 
     demo.launch(
         server_name=host,
