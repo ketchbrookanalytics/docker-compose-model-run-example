@@ -27,7 +27,7 @@ When [Docker Model Runner](https://docs.docker.com/ai/model-runner/) was release
   + See requirements for Docker Model Runner [here](https://docs.docker.com/ai/model-runner/#requirements), which are dependent on your underlying OS outside of Docker
 - VS Code
 
-⚠️ NOTE: This approach is currently **not supported in GitHub Codespaces** because Codespaces machines lack the required Docker CLI plugins to run Docker Model Runner.
+> ⚠️ NOTE: This approach is currently **not supported in GitHub Codespaces** because Codespaces machines lack the required Docker CLI plugins to run Docker Model Runner.
 
 ## Quick Start
 
