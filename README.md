@@ -6,7 +6,12 @@ The official documentation on using Docker Model Runner with Docker Compose can 
 
 ## Motivation
 
-We found ourselves constantly following the same pattern of creating a Docker Compose environment with two services: (1) a web application and (2) an API for hosting an open-weights LLM using [ollama](https://github.com/ollama/ollama). When [Docker Model Runner](https://docs.docker.com/ai/model-runner/) was released, it appeared that we may be able to greatly simplify the effort required to stand up the second service. This approach has significantly reduced the configuration required to utilize an open-weights LLM with another Docker container service.
+We found ourselves constantly following the same pattern of creating a Docker Compose environment with two services:
+
+1. A web application
+2. An API for hosting an open-weights LLM using [ollama](https://github.com/ollama/ollama).
+
+When [Docker Model Runner](https://docs.docker.com/ai/model-runner/) was released, it appeared that we may be able to greatly simplify the effort required to stand up the second service. This approach has significantly reduced the configuration required to utilize an open-weights LLM with another Docker container service.
 
 ## Features
 
