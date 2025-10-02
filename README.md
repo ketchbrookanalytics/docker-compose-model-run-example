@@ -4,6 +4,10 @@ Template repository for projects containing a service (web app, API, etc.) and a
 
 The official documentation on using Docker Model Runner with Docker Compose can be found here: <https://docs.docker.com/ai/compose/models-and-compose/>.
 
+## Motivation
+
+We found ourselves constantly following the same pattern of creating a Docker Compose environment with two services: (1) a web application and (2) an API for hosting an open-weights LLM using [ollama](https://github.com/ollama/ollama). When [Docker Model Runner](https://docs.docker.com/ai/model-runner/) was released, it appeared that we may be able to greatly simplify the effort required to stand up the second service. This approach has significantly reduced the configuration required to utilize an open-weights LLM with another Docker container service.
+
 ## Features
 
 - 🐳 Dev Container with Docker Compose for consistent development environment
