@@ -23,9 +23,7 @@
         "python.defaultInterpreterPath": "/app/.venv/bin/python",
         "remote.autoForwardPortsSource": "hybrid",
         "editor.formatOnSave": true,
-        "editor.rulers": [
-          80
-        ]
+        "editor.rulers": [80]
       },
       // Add the IDs of extensions you want installed when the container is created
       "extensions": [
